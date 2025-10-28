@@ -6,8 +6,8 @@
             <div class="col-lg-8 col-md-10">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title text-center mb-4">Sign Up to NutriTrack</h5>
-                        <form method="POST" action="{{ route('signup') }}" enctype="multipart/form-data">
+                        <h5 class="card-title text-center mb-4">Buat Pengguna Baru</h5>
+                        <form method="POST" action="{{ route('admin.users.store') }}" enctype="multipart/form-data">
                             @if (Session::has('success'))
                                 <div class="alert alert-success my-3">{{ Session::get('success') }}</div>
                             @endif
@@ -100,20 +100,26 @@
                                 <label class="form-label" for="form3Example4">Password</label>
                             </div>
 
-                            <!-- Checkbox -->
-                            <div class="form-check justify-content-center mb-4 ms-3">
-                                <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
-                                <label class="form-check-label" for="form2Example33">
-                                    Ingat saya
-                                </label>
+                            <!-- Role input -->
+                            <div class="mb-4">
+                                @error('role_id')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                                <label class="form-label" for="role_id">Role</label>
+                                <select name="role_id" id="role_id" class="form-select @error('role_id') is-invalid @enderror">
+                                    <option value="">Pilih Role</option>
+                                    @foreach(\App\Models\Role::all() as $role)
+                                        <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="d-grid">
-                                <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                                <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block">Buat Pengguna</button>
                             </div>
 
                             <div class="text-center mt-3">
-                                <a href="{{ route('home') }}">Kembali</a>
+                                <a href="{{ route('admin.users.index') }}">Kembali ke Daftar Pengguna</a>
                             </div>
                         </form>
                     </div>

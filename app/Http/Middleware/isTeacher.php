@@ -15,7 +15,7 @@ class isTeacher
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->role === 'teacher') {
+        if (auth()->check() && auth()->user()->role->name === 'teacher') {
             return $next($request);
         }else {
             return redirect()->route('home');

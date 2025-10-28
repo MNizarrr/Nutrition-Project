@@ -20,11 +20,9 @@ Route::post('/signin', [UserController::class, 'authentication'])->name('signin.
 // Logout
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
-
 // ============ HALAMAN UMUM ============
 Route::get('/', fn() => view('home'))->name('home');
 Route::get('/bmicalculator', fn() => view('bmicalculator'))->name('bmicalculator');
-
 
 // ============ HANYA UNTUK USER YANG BELUM LOGIN (Guest) ============
 Route::middleware('isGuest')->group(function () {
@@ -32,13 +30,49 @@ Route::middleware('isGuest')->group(function () {
     Route::get('/signup', fn() => view('auth.signup'))->name('signup');
 });
 
-
 // ============ TEACHER ============
-Route::prefix('/teacher')->name('teacher.')->group(function () {
-    Route::get('/dashboard', fn() => view('teacher.dashboard'))->name('dashboard');
+Route::middleware(['auth', 'isTeacher'])->prefix('/teacher')->name('teacher.')->group(function () {
+    Route::get('dashboard', fn() => view('teacher.dashboard'))->name('dashboard');
+    Route::get('progress', fn() => view('teacher.progress'))->name('progress'); // Lihat Progress User
+    Route::resource('feedback', TeacherFeedbackController::class);
 });
 
 // ============ ADMIN ============
-Route::prefix('/admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', fn() => view('admin.dashboard'))->name('dashboard');
+Route::middleware(['auth', 'isAdmin'])->prefix('/admin')->name('admin.')->group(function () {
+
+    Route::get('dashboard', fn() => view('admin.dashboard'))->name('dashboard');
+
+    Route::prefix('/users')->name('users.')->group(function () {
+        Route::get('/index', [UserController::class, 'index'])->name('index');
+        Route::get('/create', [UserController::class, 'create'])->name('create');
+        Route::post('/store', [UserController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [UserController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [UserController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [UserController::class, 'destroy'])->name('delete');
+        Route::get('/export', [UserController::class, 'export'])->name('export');
+        Route::get('/trash', [UserController::class, 'trash'])->name('trash');
+        Route::patch('/restore/{id}', [UserController::class, 'restore'])->name('restore');
+        Route::delete('/delete-permanent/{id}', [UserController::class, 'deletePermanent'])->name('delete_permanent');
+    });
+
+    Route::resource('role', RoleController::class);
+    Route::resource('system-log', SystemLogController::class);
 });
+// Route untuk semua user yang terautentikasi (bisa diakses admin dan user biasa)
+Route::middleware(['auth'])->group(function () {
+    // Profile routes - bisa diakses semua role
+    Route::name('profile.')->group(function () {
+        Route::get('/profile/', [UserController::class, 'profile'])->name('index');
+        Route::put('/profile/update/{id}', [UserController::class, 'update'])->name('update');
+        Route::get('/profile/edit', [UserController::class, 'edit'])->name('edit');
+        Route::post('/profile/upload-photo', [UserController::class, 'uploadPhoto'])->name('upload-photo');
+        Route::put('/profile/update-photo', [UserController::class, 'updatePhoto'])->name('update-photo');
+        Route::delete('/profile/delete-photo', [UserController::class, 'deletePhoto'])->name('delete-photo');
+    });
+
+    // User-specific routes
+    Route::get('/history', [BmiRecordController::class, 'index'])->name('history'); // Sejarah Hasil
+    Route::get('/physical-activity', [PhysicalActivityController::class, 'index'])->name('physical.activity'); // Aktivitas Fisik
+    Route::resource('/nutrition-goal', NutritionGoalController::class);
+});
+

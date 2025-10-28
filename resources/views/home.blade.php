@@ -4,7 +4,7 @@
 @section('content')
     @if (Session::get('success'))
         {{-- Auth User() mengambil data user yang login --}}
-        <div class="alert alert-success my-3">{{session::get('success')}} <b>Selamat datang, {{Auth::user()->name}}</b></div>
+        <div class="alert alert-success my-3">{{session::get('success')}} Selamat datang,<b> {{Auth::user()->name}}</b></div>
         {{-- Auth::user()->name : kata name di ambil dari model user - fillable --}}
     @endif
 
@@ -39,7 +39,7 @@
                     </div>
                 </div>
 
-                <a href="" class="btn btn-outline-primary rounded-pill mb-5">Semua Film</a>
+                <a href="" class="btn btn-outline-primary rounded-pill mb-5">Semua Kegiatan</a>
 
                 <div class="row">
                     <div class="col-md-4 mb-4">

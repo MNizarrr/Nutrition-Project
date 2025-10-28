@@ -17,7 +17,7 @@
 <body>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
         <!-- Container wrapper -->
         <div class="container-fluid">
             <!-- Toggle button -->
@@ -30,7 +30,7 @@
             <!-- Collapsible wrapper -->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Navbar brand -->
-                <a class="navbar-brand mt-2 mt-lg-0" href="#">
+                <a class="navbar-brand mt-2 mt-lg-0" href="/">
                     <i class="fa-solid fa-star-of-life"></i>
                     <h5 class="mt-2 ms-1">
                         NutriTrack
@@ -38,15 +38,35 @@
                 </a>
                 <!-- Left links -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Hitung IMT</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Sejarah Hasil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">AKtivitas Fisik</a>
-                    </li>
+                    @if (Auth::check() && Auth::user()->role->name == 'admin')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.users.index') }}">Kelola Users</a>
+                        </li>
+                    @elseif (Auth::check() && Auth::user()->role->name == 'teacher')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('teacher.dashboard') }}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('teacher.progress') }}">Lihat Progress User</a>
+                        </li>
+
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('home') }}">Beranda</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('bmicalculator') }}">Hitung IMT</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('history') }}">Sejarah Hasil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('physical.activity') }}">Aktivitas Fisik</a>
+                        </li>
+                    @endif
                 </ul>
                 <!-- Left links -->
             </div>
@@ -57,44 +77,48 @@
             <div class="d-flex align-items-center">
                 {{-- Auth::check : mengecek sudah login atau belum --}}
                 @if (Auth::check())
-                <div class="d-flex align-items-center">
-                    <small class="me-2">
-                        {{ Auth::user()->name }}
-                    </small>
-                        <!-- Avatar -->
-                        <div class="dropdown">
-                            <a data-mdb-dropdown-init class="dropdown-toggle d-flex align-items-center hidden-arrow"
-                                href="#" id="navbarDropdownMenuAvatar" role="button" aria-expanded="false">
-                                <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle"
-                                    height="25" alt="Black and White Portrait of a Man" loading="lazy" />
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-                                <li>
-                                    <a class="dropdown-item" href="#">My profile</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item text-danger" href="#">Logout</a>
-                                </li>
-                            </ul>
-                        </div>
-                    @else
-                        <a href="{{ route('signin') }}" class="btn btn-link text-warning px-3 me-2">
-                            Sign In
+                    <div class="dropdown">
+                        <a data-mdb-dropdown-init class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#"
+                            id="navbarDropdownMenuAvatar" role="button" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                                <small class="me-2">
+                                    {{ Auth::user()->name }}
+                                </small>
+                                <!-- Avatar -->
+                                @auth
+                                    <img src="{{ auth()->user()->profile_image ? asset('storage/' . auth()->user()->profile_image) : asset('images/default-avatar.png') }}"
+                                        class="rounded-circle" height="35" alt="Profile Picture" loading="lazy" />
+                                @endauth
                         </a>
-                        <a href="{{ route('signup') }}" class="btn btn-primary me-3">
-                            Sign up for free
-                        </a>
-                    @endif
-                </div>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('profile.index') }}">My profile</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="{{ route(name: 'logout') }}">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                @else
+                    <a href="{{ route('signin') }}" class="btn btn-link text-warning px-3 me-2">
+                        Sign In
+                    </a>
+                    <a href="{{ route('signup') }}" class="btn btn-primary me-3">
+                        Sign up for free
+                    </a>
+                @endif
             </div>
-            <!-- Right elements -->
+        </div>
+        <!-- Right elements -->
         </div>
         <!-- Container wrapper -->
     </nav>
     <!-- Navbar -->
 
     {{-- wadah content dinamis --}}
-    @yield('content')
+    <div style="padding-top: 70px;">
+        @yield('content')
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
