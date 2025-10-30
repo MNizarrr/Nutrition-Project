@@ -53,7 +53,7 @@
                             <a class="nav-link" href="{{ route('teacher.progress') }}">Lihat Progress User</a>
                         </li>
 
-                    @else
+                    @elseif (Auth::check())
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('home') }}">Beranda</a>
                         </li>
@@ -65,6 +65,19 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('physical.activity') }}">Aktivitas Fisik</a>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('home') }}">Beranda</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('signin') }}">Hitung IMT</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('signin') }}">Sejarah Hasil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('signin') }}">Aktivitas Fisik</a>
                         </li>
                     @endif
                 </ul>

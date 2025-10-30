@@ -17,5 +17,13 @@ class BmiRecord extends Model
         'bmi_category',
         'record_date',
         'notes',
+        'admin_status',
+        'admin_message',
+        'teacher_checked',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

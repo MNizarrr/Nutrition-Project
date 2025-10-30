@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminBmiFeedbackController;
 use App\Http\Controllers\BmiRecordController;
 use App\Http\Controllers\NutritionGoalController;
 use App\Http\Controllers\PhysicalActivityController;
@@ -22,7 +23,6 @@ Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
 // ============ HALAMAN UMUM ============
 Route::get('/', fn() => view('home'))->name('home');
-Route::get('/bmicalculator', fn() => view('bmicalculator'))->name('bmicalculator');
 
 // ============ HANYA UNTUK USER YANG BELUM LOGIN (Guest) ============
 Route::middleware('isGuest')->group(function () {
@@ -33,7 +33,8 @@ Route::middleware('isGuest')->group(function () {
 // ============ TEACHER ============
 Route::middleware(['auth', 'isTeacher'])->prefix('/teacher')->name('teacher.')->group(function () {
     Route::get('dashboard', fn() => view('teacher.dashboard'))->name('dashboard');
-    Route::get('progress', fn() => view('teacher.progress'))->name('progress'); // Lihat Progress User
+    Route::get('progress', [TeacherFeedbackController::class, 'progress'])->name('progress'); // Lihat Progress User
+    Route::post('progress/toggle/{recordId}', [TeacherFeedbackController::class, 'toggleChecked'])->name('progress.toggle');
     Route::resource('feedback', TeacherFeedbackController::class);
 });
 
@@ -57,6 +58,8 @@ Route::middleware(['auth', 'isAdmin'])->prefix('/admin')->name('admin.')->group(
 
     Route::resource('role', RoleController::class);
     Route::resource('system-log', SystemLogController::class);
+    Route::get('/feedback', [AdminBmiFeedbackController::class, 'index'])->name('feedback.index');
+    Route::put('/feedback/{bmiRecord}', [AdminBmiFeedbackController::class, 'update'])->name('feedback.update');
 });
 // Route untuk semua user yang terautentikasi (bisa diakses admin dan user biasa)
 Route::middleware(['auth'])->group(function () {
@@ -72,7 +75,8 @@ Route::middleware(['auth'])->group(function () {
 
     // User-specific routes
     Route::get('/history', [BmiRecordController::class, 'index'])->name('history'); // Sejarah Hasil
+    Route::get('/bmicalculator', fn() => view('bmicalculator'))->name('bmicalculator');
+    Route::post('/bmi/store', [BmiRecordController::class, 'store'])->name('bmi.store');
     Route::get('/physical-activity', [PhysicalActivityController::class, 'index'])->name('physical.activity'); // Aktivitas Fisik
     Route::resource('/nutrition-goal', NutritionGoalController::class);
 });
-

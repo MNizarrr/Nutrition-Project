@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\TeacherFeedback;
+use App\Models\User;
+use App\Models\BmiRecord;
 use Illuminate\Http\Request;
 
 class TeacherFeedbackController extends Controller
@@ -13,6 +15,21 @@ class TeacherFeedbackController extends Controller
     public function index()
     {
         //
+    }
+
+    /**
+     * Display user progress for teachers.
+     */
+    public function progress()
+    {
+        // Get all users with their latest BMI record
+        $users = User::where('role_id', 3) // Assuming role_id 3 is for users
+            ->with(['bmiRecords' => function($query) {
+                $query->orderBy('record_date', 'desc')->limit(1);
+            }])
+            ->get();
+
+        return view('teacher.progress', compact('users'));
     }
 
     /**
@@ -53,6 +70,20 @@ class TeacherFeedbackController extends Controller
     public function update(Request $request, TeacherFeedback $teacherFeedback)
     {
         //
+    }
+
+    /**
+     * Toggle teacher checked status for BMI record.
+     */
+    public function toggleChecked(Request $request, $recordId)
+    {
+        $record = BmiRecord::findOrFail($recordId);
+
+        // Toggle the teacher_checked status
+        $record->teacher_checked = !$record->teacher_checked;
+        $record->save();
+
+        return redirect()->back()->with('success', 'Progress status updated successfully.');
     }
 
     /**
