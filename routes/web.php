@@ -10,6 +10,7 @@ use App\Http\Controllers\TeacherFeedbackController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+
 // ============ AUTH ROUTES ============
 
 // SIGNUP (Register)
@@ -21,24 +22,37 @@ Route::post('/signin', [UserController::class, 'authentication'])->name('signin.
 // Logout
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
+// Tambahkan ini agar middleware auth TIDAK ERROR
+Route::get('/login', function () {
+    return redirect()->route('signin');  // <-- tambahan
+})->name('login');
+
+
 // ============ HALAMAN UMUM ============
+
 Route::get('/', fn() => view('home'))->name('home');
 
+
 // ============ HANYA UNTUK USER YANG BELUM LOGIN (Guest) ============
+
 Route::middleware('isGuest')->group(function () {
     Route::get('/signin', fn() => view('auth.signin'))->name('signin');
     Route::get('/signup', fn() => view('auth.signup'))->name('signup');
 });
 
+
 // ============ TEACHER ============
+
 Route::middleware(['auth', 'isTeacher'])->prefix('/teacher')->name('teacher.')->group(function () {
     Route::get('dashboard', fn() => view('teacher.dashboard'))->name('dashboard');
-    Route::get('progress', [TeacherFeedbackController::class, 'progress'])->name('progress'); // Lihat Progress User
+    Route::get('progress', [TeacherFeedbackController::class, 'progress'])->name('progress');
     Route::post('progress/toggle/{recordId}', [TeacherFeedbackController::class, 'toggleChecked'])->name('progress.toggle');
     Route::resource('feedback', TeacherFeedbackController::class);
 });
 
+
 // ============ ADMIN ============
+
 Route::middleware(['auth', 'isAdmin'])->prefix('/admin')->name('admin.')->group(function () {
 
     Route::get('dashboard', fn() => view('admin.dashboard'))->name('dashboard');
@@ -58,12 +72,17 @@ Route::middleware(['auth', 'isAdmin'])->prefix('/admin')->name('admin.')->group(
 
     Route::resource('role', RoleController::class);
     Route::resource('system-log', SystemLogController::class);
+
     Route::get('/feedback', [AdminBmiFeedbackController::class, 'index'])->name('feedback.index');
     Route::put('/feedback/{bmiRecord}', [AdminBmiFeedbackController::class, 'update'])->name('feedback.update');
 });
-// Route untuk semua user yang terautentikasi (bisa diakses admin dan user biasa)
+
+
+// ============ UNTUK SEMUA USER YANG SUDAH LOGIN ============
+
 Route::middleware(['auth'])->group(function () {
-    // Profile routes - bisa diakses semua role
+
+    // Profile
     Route::name('profile.')->group(function () {
         Route::get('/profile/', [UserController::class, 'profile'])->name('index');
         Route::put('/profile/update/{id}', [UserController::class, 'update'])->name('update');
@@ -74,9 +93,9 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // User-specific routes
-    Route::get('/history', [BmiRecordController::class, 'index'])->name('history'); // Sejarah Hasil
+    Route::get('/history', [BmiRecordController::class, 'index'])->name('history');
     Route::get('/bmicalculator', fn() => view('bmicalculator'))->name('bmicalculator');
     Route::post('/bmi/store', [BmiRecordController::class, 'store'])->name('bmi.store');
-    Route::get('/physical-activity', [PhysicalActivityController::class, 'index'])->name('physical.activity'); // Aktivitas Fisik
+    Route::get('/physical-activity', [PhysicalActivityController::class, 'index'])->name('physical.activity');
     Route::resource('/nutrition-goal', NutritionGoalController::class);
 });
