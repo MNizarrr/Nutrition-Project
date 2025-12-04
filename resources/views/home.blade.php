@@ -42,57 +42,27 @@
                 <a href="" class="btn btn-outline-primary rounded-pill mb-5">Semua Kegiatan</a>
 
                 <div class="row">
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 shadow-sm">
-                            <img src="{{ asset('images/cardio.jpg') }}" class="card-img-top" alt="Cardio"
-                                style="height: 200px; object-fit: cover;">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">Cardio & Fat Burn</h5>
-                                <p class="card-text flex-grow-1">Program pembakaran lemak dengan latihan kardio intensitas
-                                    sedang hingga tinggi.</p>
-                                <ul class="list-unstyled mb-3">
-                                    <li><i class="fas fa-clock text-primary"></i> Durasi: 30-45 menit</li>
-                                    <li><i class="fas fa-calendar text-primary"></i> 4-5x per minggu</li>
-                                    <li><i class="fas fa-fire text-primary"></i> Kalori terbakar: 300-500</li>
-                                </ul>
-                                <a href="#" class="btn btn-outline-primary mt-auto">Mulai Program</a>
+                    @forelse($activities as $activity)
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">{{ $activity->name }}</h5>
+                                    <p class="card-text flex-grow-1">{{ $activity->description }}</p>
+                                    <ul class="list-unstyled mb-3">
+                                        <li><i class="fas fa-fire text-primary"></i> Kalori terbakar: {{ $activity->calories_burned }} per jam</li>
+                                        <li><i class="fas fa-chart-line text-primary"></i> Intensitas: {{ $activity->intensity_level }}</li>
+                                    </ul>
+                                    <a href="#" class="btn btn-outline-primary mt-auto">Mulai Program</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 shadow-sm">
-                            <img src="{{ asset('images/strength.jpg') }}" class="card-img-top" alt="Strength"
-                                style="height: 200px; object-fit: cover;">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">Strength Training</h5>
-                                <p class="card-text flex-grow-1">Bangun massa otot dan tingkatkan metabolisme dengan latihan
-                                    beban.</p>
-                                <ul class="list-unstyled mb-3">
-                                    <li><i class="fas fa-clock text-primary"></i> Durasi: 45-60 menit</li>
-                                    <li><i class="fas fa-calendar text-primary"></i> 3-4x per minggu</li>
-                                    <li><i class="fas fa-dumbbell text-primary"></i> Full body workout</li>
-                                </ul>
-                                <a href="#" class="btn btn-outline-primary mt-auto">Mulai Program</a>
+                    @empty
+                        <div class="col-12">
+                            <div class="text-center">
+                                <p class="text-muted">Belum ada program olahraga yang tersedia.</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 shadow-sm">
-                            <img src="{{ asset('images/yoga.jpg') }}" class="card-img-top" alt="Yoga"
-                                style="height: 200px; object-fit: cover;">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">Yoga & Flexibility</h5>
-                                <p class="card-text flex-grow-1">Tingkatkan fleksibilitas, keseimbangan, dan kesehatan
-                                    mental.</p>
-                                <ul class="list-unstyled mb-3">
-                                    <li><i class="fas fa-clock text-primary"></i> Durasi: 30-60 menit</li>
-                                    <li><i class="fas fa-calendar text-primary"></i> 5-7x per minggu</li>
-                                    <li><i class="fas fa-heart text-primary"></i> Low impact</li>
-                                </ul>
-                                <a href="#" class="btn btn-outline-primary mt-auto">Mulai Program</a>
-                            </div>
-                        </div>
-                    </div>
+                    @endforelse
                 </div>
             </div>
         </section>

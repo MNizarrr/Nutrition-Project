@@ -13,7 +13,8 @@ class PhysicalActivity extends Model
 
     protected $fillable = [
         'name',
-        'calories_burned_per_hour',
         'description',
+        'calories_burned',
+        'intensity_level',
     ];
 }

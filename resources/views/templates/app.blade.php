@@ -52,6 +52,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('teacher.progress') }}">Lihat Progress User</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('teacher.exercise.index') }}">Kelola Aktivitas Fisik</a>
+                        </li>
 
                     @elseif (Auth::check())
                         <li class="nav-item">

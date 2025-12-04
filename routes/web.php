@@ -30,7 +30,7 @@ Route::get('/login', function () {
 
 // ============ HALAMAN UMUM ============
 
-Route::get('/', fn() => view('home'))->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 // ============ HANYA UNTUK USER YANG BELUM LOGIN (Guest) ============
@@ -48,6 +48,10 @@ Route::middleware(['auth', 'isTeacher'])->prefix('/teacher')->name('teacher.')->
     Route::get('progress', [TeacherFeedbackController::class, 'progress'])->name('progress');
     Route::post('progress/toggle/{recordId}', [TeacherFeedbackController::class, 'toggleChecked'])->name('progress.toggle');
     Route::resource('feedback', TeacherFeedbackController::class);
+    Route::resource('exercise', PhysicalActivityController::class);
+    Route::get('exercise/trash', [PhysicalActivityController::class, 'trash'])->name('exercise.trash');
+    Route::patch('exercise/restore/{id}', [PhysicalActivityController::class, 'restore'])->name('exercise.restore');
+    Route::delete('exercise/force-delete/{id}', [PhysicalActivityController::class, 'forceDelete'])->name('exercise.force-delete');
 });
 
 
