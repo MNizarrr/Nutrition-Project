@@ -52,7 +52,7 @@
                                         <li><i class="fas fa-fire text-primary"></i> Kalori terbakar: {{ $activity->calories_burned }} per jam</li>
                                         <li><i class="fas fa-chart-line text-primary"></i> Intensitas: {{ $activity->intensity_level }}</li>
                                     </ul>
-                                    <a href="#" class="btn btn-outline-primary mt-auto">Mulai Program</a>
+                                    <a href="{{ route('user.exercise.start', $activity->id) }}" class="btn btn-outline-primary mt-auto">Mulai Program</a>
                                 </div>
                             </div>
                         </div>

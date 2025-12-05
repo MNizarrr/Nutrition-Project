@@ -8,6 +8,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SystemLogController;
 use App\Http\Controllers\TeacherFeedbackController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserExerciseController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -102,4 +103,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/bmi/store', [BmiRecordController::class, 'store'])->name('bmi.store');
     Route::get('/physical-activity', [PhysicalActivityController::class, 'index'])->name('physical.activity');
     Route::resource('/nutrition-goal', NutritionGoalController::class);
+
+    // User Exercise routes
+    Route::get('/exercise/start/{activityId}', [UserExerciseController::class, 'start'])->name('user.exercise.start');
+    Route::post('/exercise/finish', [UserExerciseController::class, 'finish'])->name('user.exercise.finish');
+    Route::get('/exercise/complete/{sessionId}', [UserExerciseController::class, 'complete'])->name('user.exercise.complete');
+    Route::get('/exercise/pdf/{sessionId}', [UserExerciseController::class, 'exportPDF'])->name('user.exercise.pdf');
 });

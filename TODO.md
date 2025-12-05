@@ -1,21 +1,35 @@
-# TODO: Enhance BMI Calculator with Modal and Teacher Progress
+# TODO: Implement User Exercise Session Feature
 
-## 1. Update BMI Calculator View
-- [x] Add a modal to display BMI result, category, and "Simpan" / "Batal" buttons.
-- [x] Implement JavaScript to calculate BMI on form submit, show modal, handle save/cancel actions.
-- [x] Ensure modal appears after calculation without page reload.
+## Migration
+- [ ] Create migration for `user_exercise_sessions` table (user_id, physical_activity_id, duration_minutes, calories_burned, started_at, finished_at)
 
-## 2. Update Routes
-- [x] Change teacher progress route from closure to controller method in routes/web.php.
+## Model
+- [ ] Create `UserExerciseSession` model with relationships to User and PhysicalActivity
 
-## 3. Update TeacherFeedbackController
-- [x] Add `progress` method to fetch and display user BMI data for teachers.
+## Controller
+- [ ] Create `UserExerciseController` with methods:
+  - [ ] `start($activityId)`: Display start page
+  - [ ] `finish(Request $request)`: Store session and redirect to complete
+  - [ ] `complete($sessionId)`: Display completion page
+  - [ ] `exportPDF($sessionId)`: Generate and download PDF
 
-## 4. Update Teacher Progress View
-- [x] Modify resources/views/teacher/progress.blade.php to display a table of users with their latest BMI records.
+## Views
+- [x] Create `resources/views/user/exercise/start.blade.php`: Duration selector with JS calculation
+- [x] Create `resources/views/user/exercise/complete.blade.php`: Summary and PDF export button
 
-## 5. Testing
-- [ ] Test BMI calculator: Enter values, verify modal shows correct result, save adds to history, cancel does nothing.
-- [ ] Check history page: Confirm saved records appear.
-- [ ] Check teacher progress: Ensure teachers see user BMI records.
-- [ ] Verify authentication and permissions.
+## Routes
+- [x] Add routes in `routes/web.php` under auth middleware:
+  - [x] GET /exercise/start/{activityId} -> start
+  - [x] POST /exercise/finish -> finish
+  - [x] GET /exercise/complete/{sessionId} -> complete
+  - [x] GET /exercise/pdf/{sessionId} -> exportPDF
+
+## Updates
+- [ ] Update `resources/views/home.blade.php`: Change "Mulai Program" href to route with activity ID
+
+## Dependencies
+- [x] Install `barryvdh/laravel-dompdf` via composer
+
+## Testing
+- [x] Run migration
+- [x] Test flow: start program -> select duration -> finish -> view completion -> download PDF
