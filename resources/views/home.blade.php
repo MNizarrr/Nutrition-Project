@@ -21,7 +21,7 @@
                         <p class="lead mb-4">Kelola berat badan ideal, hitung Indeks Massa Tubuh (IMT), dan temukan program
                             olahraga yang tepat untuk hidup lebih sehat.</p>
                         <div class="d-flex gap-3 flex-wrap">
-                            <a href="#kalkulator" class="btn btn-light btn-lg px-4">Hitung IMT Sekarang</a>
+                            <a href="{{ route("bmicalculator") }}" class="btn btn-light btn-lg px-4">Hitung IMT Sekarang</a>
                             <a href="#program" class="btn btn-outline-light btn-lg px-4">Lihat Program</a>
                         </div>
                     </div>
