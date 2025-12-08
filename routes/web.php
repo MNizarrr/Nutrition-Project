@@ -28,6 +28,7 @@ Route::get('/login', function () {
     return redirect()->route('signin');  // <-- tambahan
 })->name('login');
 
+Route::get('/movies/all', action: [UserExerciseController::class, 'homeExercise'])->name('home.exercise.all');
 
 // ============ HALAMAN UMUM ============
 

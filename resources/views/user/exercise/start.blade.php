@@ -42,7 +42,7 @@
 </div>
 @endsection
 
-@push('scripts')
+@push('script')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const durationInput = document.getElementById('duration');
