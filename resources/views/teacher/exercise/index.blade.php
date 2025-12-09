@@ -40,7 +40,19 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <a href="{{ route('teacher.exercise.edit', $activity) }}" class="btn btn-sm btn-warning">
+                                            <span class="badge bg-{{ $activity->status == 'active' ? 'success' : 'secondary' }}">
+                                                {{ $activity->status == 'active' ? 'Aktif' : 'Non-Aktif' }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <form action="{{ route('teacher.exercise.toggle', $activity) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="btn btn-sm {{ $activity->status == 'active' ? 'btn-warning' : 'btn-success' }}">
+                                                    <i class="{{ $activity->status == 'active' ? 'fas fa-ban' : 'fas fa-check' }}"></i> {{ $activity->status == 'active' ? 'Non-Aktif' : 'Aktifkan' }}
+                                                </button>
+                                            </form>
+                                            <a href="{{ route('teacher.exercise.edit', $activity) }}" class="btn btn-sm btn-primary">
                                                 <i class="fas fa-edit"></i> Edit
                                             </a>
                                             <form action="{{ route('teacher.exercise.destroy', $activity) }}" method="POST" class="d-inline">
@@ -54,7 +66,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="text-center">Belum ada aktivitas fisik yang ditambahkan.</td>
+                                        <td colspan="6" class="text-center">Belum ada aktivitas fisik yang ditambahkan.</td>
                                     </tr>
                                 @endforelse
                             </tbody>

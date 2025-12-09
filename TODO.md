@@ -1,0 +1,5 @@
+- [x] Fix duplicate chart ID in dashboard.blade.php
+- [x] Add new method in AdminController for active users chart
+- [x] Update dashboard.blade.php to include new chart for users performing activities
+- [x] Add route for new chart data if needed
+- [ ] Test the new chart functionality

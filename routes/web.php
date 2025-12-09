@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminBmiFeedbackController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BmiRecordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NutritionGoalController;
@@ -52,6 +53,7 @@ Route::middleware(['auth', 'isTeacher'])->prefix('/teacher')->name('teacher.')->
     Route::post('progress/toggle/{recordId}', [TeacherFeedbackController::class, 'toggleChecked'])->name('progress.toggle');
     Route::resource('feedback', TeacherFeedbackController::class);
     Route::resource('exercise', PhysicalActivityController::class);
+    Route::patch('exercise/toggle/{id}', [PhysicalActivityController::class, 'toggleStatus'])->name('exercise.toggle');
     Route::get('exercise/trash', [PhysicalActivityController::class, 'trash'])->name('exercise.trash');
     Route::patch('exercise/restore/{id}', [PhysicalActivityController::class, 'restore'])->name('exercise.restore');
     Route::delete('exercise/force-delete/{id}', [PhysicalActivityController::class, 'forceDelete'])->name('exercise.force-delete');
@@ -63,6 +65,9 @@ Route::middleware(['auth', 'isTeacher'])->prefix('/teacher')->name('teacher.')->
 Route::middleware(['auth', 'isAdmin'])->prefix('/admin')->name('admin.')->group(function () {
 
     Route::get('dashboard', fn() => view('admin.dashboard'))->name('dashboard');
+    Route::get('bmi/chart', [AdminController::class, 'bmiChart'])->name('bmi.chart');
+    Route::get('activities/chart', [AdminController::class, 'activitiesChart'])->name('activities.chart');
+    Route::get('active-users/chart', [AdminController::class, 'activeUsersChart'])->name('active.users.chart');
 
     Route::prefix('/users')->name('users.')->group(function () {
         Route::get('/index', [UserController::class, 'index'])->name('index');

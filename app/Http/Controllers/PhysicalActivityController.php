@@ -34,6 +34,7 @@ class PhysicalActivityController extends Controller
             'description' => 'nullable|string',
             'calories_burned' => 'required|numeric|min:0',
             'intensity_level' => 'required|in:Rendah,Sedang,Tinggi',
+            'status' => 'required|in:active,inactive',
         ]);
 
         PhysicalActivity::create($request->all());
@@ -113,5 +114,19 @@ class PhysicalActivityController extends Controller
         $activity->forceDelete();
 
         return redirect()->route('teacher.exercise.trash')->with('success', 'Aktivitas fisik berhasil dihapus permanen.');
+    }
+
+    /**
+     * Toggle the status of the activity (active/inactive).
+     */
+    public function toggleStatus($id)
+    {
+        $activity = PhysicalActivity::findOrFail($id);
+        $activity->status = $activity->status === 'active' ? 'inactive' : 'active';
+        $activity->save();
+
+        $message = $activity->status === 'active' ? 'Aktivitas fisik berhasil diaktifkan.' : 'Aktivitas fisik berhasil dinonaktifkan.';
+
+        return redirect()->route('teacher.exercise.index')->with('success', $message);
     }
 }
