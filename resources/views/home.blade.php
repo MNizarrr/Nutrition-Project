@@ -27,6 +27,9 @@
                     </div>
                 </div>
             </div>
+            {{-- <div class="container">
+                <video src="{{ asset('storage/footage/larilarian.mp4') }}" style="height: 100px; margin-top: 20px;"></video>
+            </div> --}}
         </section>
 
         <!-- Program Olahraga Section -->
@@ -39,7 +42,7 @@
                     </div>
                 </div>
 
-                <a href="" class="btn btn-outline-primary rounded-pill mb-5">Semua Kegiatan</a>
+                <a href="{{ route('exercise.all') }}" class="btn btn-outline-primary rounded-pill mb-5">Semua Kegiatan</a>
 
                 <div class="row">
                     @forelse($activities as $activity)

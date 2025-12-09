@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminBmiFeedbackController;
 use App\Http\Controllers\BmiRecordController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NutritionGoalController;
 use App\Http\Controllers\PhysicalActivityController;
 use App\Http\Controllers\RoleController;
@@ -106,6 +107,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/nutrition-goal', NutritionGoalController::class);
 
     // User Exercise routes
+    Route::get('/exercise', [HomeController::class, 'allActivities'])->name('exercise.all');
     Route::get('/exercise/start/{activityId}', [UserExerciseController::class, 'start'])->name('user.exercise.start');
     Route::post('/exercise/finish', [UserExerciseController::class, 'finish'])->name('user.exercise.finish');
     Route::get('/exercise/complete/{sessionId}', [UserExerciseController::class, 'complete'])->name('user.exercise.complete');
