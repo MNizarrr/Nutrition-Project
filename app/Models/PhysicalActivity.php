@@ -17,5 +17,6 @@ class PhysicalActivity extends Model
         'calories_burned',
         'intensity_level',
         'status',
+        'exercise_image',
     ];
 }

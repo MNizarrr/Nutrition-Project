@@ -48,6 +48,9 @@
                     @forelse($activities as $activity)
                         <div class="col-md-4 mb-4">
                             <div class="card h-100 shadow-sm">
+                                @if(!empty($activity->exercise_image))
+                                    <img src="{{ asset('storage/' . $activity->exercise_image) }}" class="card-img-top" alt="{{ $activity->name }}" style="height:180px; object-fit:cover;">
+                                @endif
                                 <div class="card-body d-flex flex-column">
                                     <h5 class="card-title">{{ $activity->name }}</h5>
                                     <p class="card-text flex-grow-1">{{ $activity->description }}</p>

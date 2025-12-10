@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PhysicalActivity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PhysicalActivityController extends Controller
 {
@@ -35,9 +36,17 @@ class PhysicalActivityController extends Controller
             'calories_burned' => 'required|numeric|min:0',
             'intensity_level' => 'required|in:Rendah,Sedang,Tinggi',
             'status' => 'required|in:active,inactive',
+            'exercise_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        PhysicalActivity::create($request->all());
+        $data = $request->all();
+
+        if ($request->hasFile('exercise_image')) {
+            $path = $request->file('exercise_image')->store('exercises', 'public');
+            $data['exercise_image'] = $path;
+        }
+
+        PhysicalActivity::create($data);
 
         return redirect()->route('teacher.exercise.index')->with('success', 'Aktivitas fisik berhasil ditambahkan.');
     }
@@ -68,9 +77,22 @@ class PhysicalActivityController extends Controller
             'description' => 'nullable|string',
             'calories_burned' => 'required|numeric|min:0',
             'intensity_level' => 'required|in:Rendah,Sedang,Tinggi',
+            'exercise_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        $physicalActivity->update($request->all());
+        $data = $request->all();
+
+        if ($request->hasFile('exercise_image')) {
+            // delete old image if exists
+            if ($physicalActivity->exercise_image) {
+                Storage::disk('public')->delete($physicalActivity->exercise_image);
+            }
+
+            $path = $request->file('exercise_image')->store('exercises', 'public');
+            $data['exercise_image'] = $path;
+        }
+
+        $physicalActivity->update($data);
 
         return redirect()->route('teacher.exercise.index')->with('success', 'Aktivitas fisik berhasil diperbarui.');
     }
