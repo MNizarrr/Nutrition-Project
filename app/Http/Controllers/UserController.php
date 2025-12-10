@@ -22,6 +22,62 @@ class UserController extends Controller
         return view('admin.user.index', compact('users'));
     }
 
+    /**
+     * Get users for DataTables.
+     */
+    public function datatables()
+    {
+        $users = User::with('role')->select(['id', 'name', 'email', 'gender', 'date_of_birth', 'profile_image', 'role_id', 'created_at', 'updated_at']);
+
+        return DataTables::of($users)
+            ->addIndexColumn()
+            ->addColumn('gender_display', function($user) {
+                if ($user->gender === 'L') {
+                    return 'Laki Laki';
+                } elseif ($user->gender === 'P') {
+                    return 'Perempuan';
+                } else {
+                    return '-';
+                }
+            })
+            ->addColumn('date_of_birth_display', function($user) {
+                return $user->date_of_birth ? \Carbon\Carbon::parse($user->date_of_birth)->format('d F Y') : '-';
+            })
+            ->addColumn('profile_image_display', function($user) {
+                if ($user->profile_image) {
+                    return '<img src="' . asset('storage/' . $user->profile_image) . '" alt="Profile" class="img-thumbnail" style="max-width: 50px; max-height: 50px;">';
+                } else {
+                    return '-';
+                }
+            })
+            ->addColumn('role_display', function($user) {
+                if ($user->role) {
+                    if ($user->role->name === 'admin') {
+                        return '<span class="badge bg-primary">Admin</span>';
+                    } elseif ($user->role->name === 'teacher') {
+                        return '<span class="badge bg-success">Teacher</span>';
+                    } else {
+                        return '<span class="badge bg-secondary">' . ucfirst($user->role->name) . '</span>';
+                    }
+                } else {
+                    return '<span class="badge bg-danger">No Role</span>';
+                }
+            })
+            ->addColumn('created_at_display', function($user) {
+                return \Carbon\Carbon::parse($user->created_at)->format('d F Y H:i');
+            })
+            ->addColumn('updated_at_display', function($user) {
+                return \Carbon\Carbon::parse($user->updated_at)->format('d F Y H:i');
+            })
+            ->addColumn('action', function($user) {
+                $btnEdit = '<a href="' . route('admin.users.edit', $user->id) . '" class="btn btn-primary btn-sm mb-1"><i class="fa-solid fa-pen"></i></a>';
+                $btnDelete = '<form action="' . route('admin.users.delete', $user->id) . '" method="POST" class="d-inline"><input type="hidden" name="_token" value="' . csrf_token() . '" /><input type="hidden" name="_method" value="DELETE" /><button class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin ingin menghapus pengguna ini?\')"><i class="fa-solid fa-trash"></i></button></form>';
+                return '<div class="justify-content-center align-items-center gap-2">' . $btnEdit . $btnDelete . '</div>';
+            })
+            ->rawColumns(['profile_image_display', 'role_display', 'action'])
+            ->make(true);
+    }
+
     public function register(Request $request)
     {
         $request->validate([

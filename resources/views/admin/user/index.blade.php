@@ -1,18 +1,28 @@
 @extends('templates.app')
 
+@push('style')
+    <!-- DataTables Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+@endpush
+
 @section('content')
+
     <div class="container mt-5">
+
         @if (Session::get('success'))
             <div class="alert alert-success">{{ Session::get('success') }}</div>
         @endif
+
         <div class="d-flex justify-content-end mb-3">
             <a href="{{ route('admin.users.export') }}" class="btn btn-secondary me-2">Export (.Xlsx)</a>
             <a href="{{ route('admin.users.trash') }}" class="btn btn-warning me-2">Data Sampah</a>
             <a href="{{ route('admin.users.create') }}" class="btn btn-success">Tambah Data</a>
         </div>
+
         <h5 class="mb-3">Data Pengguna</h5>
+
         <div class="table-responsive">
-            <table class="table table-striped table-bordered">
+            <table id="users-table" class="table table-striped table-bordered">
                 <thead class="table-dark">
                     <tr>
                         <th>No</th>
@@ -27,52 +37,70 @@
                         <th>Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach ($users as $index => $item)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $item->name }}</td>
-                            <td>{{ $item->email }}</td>
-                            <td>
-                                @if ($item->gender === 'L')
-                                    Laki Laki
-                                @elseif ($item->gender === 'P')
-                                    Perempuan
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td>{{ $item->date_of_birth ? \Carbon\Carbon::parse($item->date_of_birth)->format('d F Y') : '-' }}</td>
-                            <td>
-                                @if($item->profile_image)
-                                    <img src="{{ asset('storage/' . $item->profile_image) }}" alt="Profile" class="img-thumbnail" style="max-width: 50px; max-height: 50px;">
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td>
-                                @if ($item->role->name === 'admin')
-                                    <span class="badge bg-primary">Admin</span>
-                                @elseif ($item->role->name === 'teacher')
-                                    <span class="badge bg-success">Teacher</span>
-                                @else
-                                    <span class="badge bg-secondary">{{ ucfirst($item->role->name) }}</span>
-                                @endif
-                            </td>
-                            <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d F Y H:i') }}</td>
-                            <td>{{ \Carbon\Carbon::parse($item->updated_at)->format('d F Y H:i') }}</td>
-                            <td class="justify-content-center align-items-center gap-2">
-                                <a href="{{ route('admin.users.edit', ['id' => $item->id]) }}" class="btn btn-primary btn-sm mb-1"><i class="fa-solid fa-pen"></i></a>
-                                <form action="{{ route('admin.users.delete', ['id' => $item->id]) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')"><i class="fa-solid fa-trash"></i></button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
+
     </div>
+
 @endsection
+
+@push('script')
+    <!-- jQuery wajib -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- DataTables core + Bootstrap 5 integration -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#users-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('admin.users.datatables') }}",
+                    type: "GET"
+                },
+                columns: [
+                    { data: "DT_RowIndex", orderable: false, searchable: false },
+                    { data: "name" },
+                    { data: "email" },
+                    { data: "gender_display", orderable: false },
+                    { data: "date_of_birth_display", orderable: false },
+                    { data: "profile_image_display", orderable: false, searchable: false },
+                    { data: "role_display", orderable: false },
+                    { data: "created_at_display" },
+                    { data: "updated_at_display" },
+                    { data: "action", orderable: false, searchable: false }
+                ],
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                lengthChange: true,
+                language: {
+                    processing: "Memproses...",
+                    search: "Cari:",
+                    lengthMenu: "Tampilkan _MENU_ entri",
+                    info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+                    infoEmpty: "Menampilkan 0 sampai 0 dari 0 entri",
+                    infoFiltered: "(disaring dari _MAX_ entri keseluruhan)",
+                    loadingRecords: "Memuat...",
+                    zeroRecords: "Tidak ditemukan data yang sesuai",
+                    emptyTable: "Tidak ada data di dalam tabel",
+                    paginate: {
+                        first: "Pertama",
+                        previous: "Sebelumnya",
+                        next: "Selanjutnya",
+                        last: "Terakhir"
+                    },
+                    aria: {
+                        sortAscending: ": aktifkan untuk mengurutkan kolom ke atas",
+                        sortDescending: ": aktifkan untuk mengurutkan kolom ke bawah"
+                    }
+                }
+            });
+        });
+    </script>
+@endpush

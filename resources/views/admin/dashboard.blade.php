@@ -10,7 +10,7 @@
             <div class="col-6">
                 <h5>Data BMI Records Bulan {{ now()->format('F') }}</h5>
                 <canvas id="chartBar"></canvas>
-                <h5>Data Jumlah Yang Beraktivitas {{ now()->format('F') }}</h5>
+                <h5 class="mt-5">Data Jumlah Yang Beraktivitas {{ now()->format('F') }}</h5>
                 <canvas id="chartBarActivities"></canvas>
             </div>
             <div class="col-6">

@@ -82,6 +82,9 @@ Route::middleware(['auth', 'isAdmin'])->prefix('/admin')->name('admin.')->group(
         Route::delete('/delete-permanent/{id}', [UserController::class, 'deletePermanent'])->name('delete_permanent');
     });
 
+    // Temporary: datatables route outside middleware for testing
+    Route::get('/users/datatables', [UserController::class, 'datatables'])->name('users.datatables');
+
     Route::resource('role', RoleController::class);
     Route::resource('system-log', SystemLogController::class);
 
