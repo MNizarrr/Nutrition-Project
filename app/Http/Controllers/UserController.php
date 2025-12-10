@@ -57,7 +57,7 @@ class UserController extends Controller
                     } elseif ($user->role->name === 'teacher') {
                         return '<span class="badge bg-success">Teacher</span>';
                     } else {
-                        return '<span class="badge bg-secondary">' . ucfirst($user->role->name) . '</span>';
+                        return '<span class="badge bg-secondary">' . ucfirst($user->role->name) . '</span>'; //untuk mengubah huruf pertama menjadi huruf besar (Uppercase).
                     }
                 } else {
                     return '<span class="badge bg-danger">No Role</span>';
@@ -121,6 +121,7 @@ class UserController extends Controller
         if (!$userRole) {
             return back()->with('error', 'Role user tidak ditemukan. Pastikan sudah seed role.');
         }
+        // Jika $userRole tidak ditemukan, maka kembali ke halaman sebelumnya dan tampilkan pesan error
 
         // Buat user
         $createData = User::create([

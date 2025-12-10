@@ -104,7 +104,7 @@ class PhysicalActivityController extends Controller
     {
         $physicalActivity->delete();
 
-        return redirect()->route('teacher.exercise.index')->with('success', 'Aktivitas fisik berhasil dihapus.');
+        return redirect()->route('teacher.exercise.index')->with('success', 'Aktivitas fisik berhasil dipindahkan ke sampah.');
     }
 
     /**

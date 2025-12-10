@@ -30,6 +30,8 @@ class BmiRecordController extends Controller
      */
     public function store(Request $request)
     {
+        // try = mencoba menjalankan kode yang berpotensi error.
+        // catch = menangkap error yang terjadi dan menanganinya dengan aman (misalnya menampilkan pesan error atau mengembalikan response khusus).
         try {
             $request->validate([
                 'height' => 'required|numeric|min:0.5|max:3',

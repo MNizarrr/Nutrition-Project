@@ -22,12 +22,10 @@ class TeacherFeedbackController extends Controller
      */
     public function progress()
     {
-        // Get all users with their latest BMI record
-        $users = User::where('role_id', 3) // Assuming role_id 3 is for users
+        $users = User::where('role_id', 3)
             ->with(['bmiRecords' => function($query) {
                 $query->orderBy('record_date', 'desc')->limit(1);
-            }])
-            ->get();
+            }])->get();
 
         return view('teacher.progress', compact('users'));
     }
