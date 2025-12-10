@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>NutriTrack</title>
+    <title>GiziFit Web</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Font Awesome -->
@@ -40,23 +40,23 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Navbar brand -->
                 <a class="navbar-brand mt-2 mt-lg-0" href="/">
-                    <i class="fa-solid fa-star-of-life"></i>
-                    <h5 class="mt-2 ms-1">
-                        NutriTrack
+                    <i class="fa-solid fa-star-of-life" style="font-size: 25px"></i>
+                    <h5 class="mt-2 ms-1 me-2" style="font-size: 30px">
+                        Gizifit
                     </h5>
                 </a>
                 <!-- Left links -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     @if (Auth::check() && Auth::user()->role->name == 'admin')
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                            <a class="nav-link" href="{{ route('admin.dashboard') }}">Dasbor</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.users.index') }}">Kelola Users</a>
                         </li>
                     @elseif (Auth::check() && Auth::user()->role->name == 'teacher')
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('teacher.dashboard') }}">Dashboard</a>
+                            <a class="nav-link" href="{{ route('teacher.dashboard') }}">Dasbor</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('teacher.progress') }}">Lihat Progress User</a>
@@ -117,19 +117,19 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
                             <li>
-                                <a class="dropdown-item" href="{{ route('profile.index') }}">My profile</a>
+                                <a class="dropdown-item" href="{{ route('profile.index') }}">Profil Saya</a>
                             </li>
                             <li>
-                                <a class="dropdown-item text-danger" href="{{ route(name: 'logout') }}">Logout</a>
+                                <a class="dropdown-item text-danger" href="{{ route(name: 'logout') }}">Keluar</a>
                             </li>
                         </ul>
                     </div>
                 @else
                     <a href="{{ route('signin') }}" class="btn btn-link text-warning px-3 me-2">
-                        Sign In
+                        Masuk
                     </a>
                     <a href="{{ route('signup') }}" class="btn btn-primary me-3">
-                        Sign up for free
+                        Registrasi Gratis
                     </a>
                 @endif
             </div>

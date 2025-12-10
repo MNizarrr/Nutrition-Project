@@ -6,7 +6,7 @@
             <div class="col-lg-8 col-md-10">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title text-center mb-4">Sign Up to NutriTrack</h5>
+                        <h5 class="card-title text-center mb-4">Daftar Ke GiziFit</h5>
                         <form method="POST" action="{{ route('signup') }}" enctype="multipart/form-data">
                             @if (Session::has('success'))
                                 <div class="alert alert-success my-3">{{ Session::get('success') }}</div>
@@ -24,7 +24,7 @@
                                     <div data-mdb-input-init class="form-outline">
                                         <input type="text" id="form3Example1" class="form-control @error('first_name') is-invalid @enderror"
                                             name="first_name" value="{{ old('first_name') }}" />
-                                        <label class="form-label" for="form3Example1">First Name</label>
+                                        <label class="form-label" for="form3Example1">Nama Depan</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -34,7 +34,7 @@
                                     <div data-mdb-input-init class="form-outline">
                                         <input type="text" id="form3Example2" class="form-control @error('last_name') is-invalid @enderror"
                                             name="last_name" value="{{ old('last_name') }}" />
-                                        <label class="form-label" for="form3Example2">Last Name</label>
+                                        <label class="form-label" for="form3Example2">Nama Belakng</label>
                                     </div>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
                                 @enderror
                                 <input type="email" id="form3Example3" class="form-control @error('email') is-invalid @enderror"
                                     name="email" value="{{ old('email') }}" />
-                                <label class="form-label" for="form3Example3">Email Address</label>
+                                <label class="form-label" for="form3Example3">Alamat Email</label>
                             </div>
 
                             <div class="row mb-4">
@@ -97,7 +97,7 @@
                                 @enderror
                                 <input type="password" id="form3Example4" class="form-control @error('password') is-invalid @enderror"
                                     name="password" />
-                                <label class="form-label" for="form3Example4">Password</label>
+                                <label class="form-label" for="form3Example4">Kata Sandi</label>
                             </div>
 
                             <!-- Checkbox -->
@@ -109,7 +109,7 @@
                             </div>
 
                             <div class="d-grid">
-                                <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                                <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block">Register</button>
                             </div>
 
                             <div class="text-center mt-3">

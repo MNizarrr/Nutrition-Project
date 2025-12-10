@@ -26,7 +26,7 @@
                                         <input type="text" id="form3Example1"
                                             class="form-control @error('first_name') is-invalid @enderror" name="first_name"
                                             value="{{ old('first_name', explode(' ', $user->name)[0] ?? '') }}" />
-                                        <label class="form-label" for="form3Example1">First Name</label>
+                                        <label class="form-label" for="form3Example1">Nama Depan</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -37,7 +37,7 @@
                                         <input type="text" id="form3Example2"
                                             class="form-control @error('last_name') is-invalid @enderror" name="last_name"
                                             value="{{ old('last_name', implode(' ', array_slice(explode(' ', $user->name), 1)) ?? '') }}" />
-                                        <label class="form-label" for="form3Example2">Last Name</label>
+                                        <label class="form-label" for="form3Example2">Nama Belakang</label>
                                     </div>
                                 </div>
                             </div>

@@ -6,7 +6,7 @@
             <div class="col-lg-6 col-md-8">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title text-center mb-4">Sign In to NutriTrack</h5>
+                        <h5 class="card-title text-center mb-4">Masuk Ke GiziFit</h5>
                         <form method="POST" action="{{ route('signin.process') }}">
                             @csrf
                             @if (Session::get('success'))
@@ -19,13 +19,13 @@
                             <!-- Email input -->
                             <div data-mdb-input-init class="form-outline mb-4">
                                 <input type="email" name="email" id="form1Example1" class="form-control" />
-                                <label class="form-label" for="form1Example1">Email Address</label>
+                                <label class="form-label" for="form1Example1">Alamat Email</label>
                             </div>
 
                             <!-- Password input -->
                             <div data-mdb-input-init class="form-outline mb-4">
                                 <input type="password" name="password" id="form1Example2" class="form-control" />
-                                <label class="form-label" for="form1Example2">Password</label>
+                                <label class="form-label" for="form1Example2">Kata Sandi</label>
                             </div>
 
                             <!-- Checkbox -->
@@ -35,7 +35,7 @@
                             </div>
 
                             <div class="d-grid">
-                                <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block">Sign In</button>
+                                <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block">Masuk</button>
                             </div>
 
                             <div class="text-center mt-3">

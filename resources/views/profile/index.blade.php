@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Profile - NutriTrack</title>
+    <title>Profile - GiziFit</title>
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <!-- Google Fonts -->
@@ -66,7 +66,7 @@
         <div class="text-center mt-3">
             <a href="{{ route('profile.edit') }}" class="btn btn-primary">Edit Profil</a>
             <a href="{{ route('home') }}" class="btn btn-secondary ml-2">Kembali</a>
-            <a href="{{ route(name: 'logout') }}" class="btn btn-danger ml-2 ms-5">LogOut</a>
+            <a href="{{ route(name: 'logout') }}" class="btn btn-danger ml-2 ms-5">Keluar</a>
         </div>
     </div>
     <!-- MDB -->
