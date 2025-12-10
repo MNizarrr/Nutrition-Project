@@ -125,7 +125,7 @@
                         </ul>
                     </div>
                 @else
-                    <a href="{{ route('signin') }}" class="btn btn-link text-warning px-3 me-2">
+                    <a href="{{ route('signin') }}" class="btn btn-outline-success px-3 me-2">
                         Masuk
                     </a>
                     <a href="{{ route('signup') }}" class="btn btn-primary me-3">
