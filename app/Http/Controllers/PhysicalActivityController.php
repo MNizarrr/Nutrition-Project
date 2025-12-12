@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PhysicalActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PhysicalActivityController extends Controller
 {
@@ -13,7 +14,7 @@ class PhysicalActivityController extends Controller
      */
     public function index()
     {
-        $activities = PhysicalActivity::all();
+        $activities = PhysicalActivity::withoutTrashed()->get();
         return view('teacher.exercise.index', compact('activities'));
     }
 
@@ -62,9 +63,11 @@ class PhysicalActivityController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(PhysicalActivity $physicalActivity)
+    public function edit(PhysicalActivity $exercise)
     {
-        return view('teacher.exercise.edit', compact('physicalActivity'));
+        return view('teacher.exercise.edit', [
+            'physicalActivity' => $exercise
+        ]);
     }
 
     /**
@@ -100,12 +103,16 @@ class PhysicalActivityController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PhysicalActivity $physicalActivity)
+    public function destroy(PhysicalActivity $exercise)
     {
-        $physicalActivity->delete();
+        $exercise->delete();
 
-        return redirect()->route('teacher.exercise.index')->with('success', 'Aktivitas fisik berhasil dipindahkan ke sampah.');
+        return redirect()
+            ->route('teacher.exercise.index')
+            ->with('success', 'Aktivitas fisik berhasil dipindahkan ke sampah.');
     }
+
+
 
     /**
      * Display trashed resources.

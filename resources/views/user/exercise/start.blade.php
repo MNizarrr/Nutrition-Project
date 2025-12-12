@@ -21,7 +21,7 @@
                             <label for="duration" class="form-label">Durasi Olahraga (menit)</label>
                             <div class="input-group">
                                 <button type="button" class="btn btn-outline-secondary" id="decrease">-</button>
-                                <input type="number" class="form-control text-center" id="duration" name="duration_minutes" value="30" min="1" readonly>
+                                <input type="number" class="form-control text-center" id="duration" name="duration_minutes" value="30" min="5" readonly>
                                 <button type="button" class="btn btn-outline-secondary" id="increase">+</button>
                             </div>
                         </div>
@@ -45,34 +45,39 @@
 @push('script')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Ambil elemen input durasi, tampilan kalori, dan tombol + / -
     const durationInput = document.getElementById('duration');
     const caloriesDisplay = document.getElementById('calories');
     const increaseBtn = document.getElementById('increase');
     const decreaseBtn = document.getElementById('decrease');
+
+    // Nilai kalori yang dibakar per jam, berasal dari database (Laravel blade)
     const caloriesPerHour = {{ $activity->calories_burned }};
 
+    // Fungsi untuk menghitung total kalori berdasarkan durasi (menit)
     function updateCalories() {
-        const duration = parseInt(durationInput.value);
-        const calories = (caloriesPerHour / 60) * duration;
-        caloriesDisplay.textContent = Math.round(calories);
+        const duration = parseInt(durationInput.value); // ambil nilai durasi
+        const calories = (caloriesPerHour / 60) * duration; // rumus: kalori per menit * durasi
+        caloriesDisplay.textContent = Math.round(calories); // tampilkan hasil, dibulatkan
     }
 
+    // Tombol untuk menambah durasi +5 menit
     increaseBtn.addEventListener('click', function() {
         let value = parseInt(durationInput.value);
-        durationInput.value = value + 1;
-        updateCalories();
+        durationInput.value = value + 5; // tambah 5 menit
+        updateCalories(); // hitung ulang kalori
     });
 
+    // Tombol untuk mengurangi durasi -5 menit, minimal tidak boleh kurang dari 1
     decreaseBtn.addEventListener('click', function() {
         let value = parseInt(durationInput.value);
         if (value > 1) {
-            durationInput.value = value - 1;
+            durationInput.value = value - 5; // kurangi 5 menit
             updateCalories();
         }
     });
 
-    // Initial calculation
-    updateCalories();
-});
+    updateCalories(); // Hitung kalori pertama kali saat halaman dimuat
+}); 
 </script>
 @endpush

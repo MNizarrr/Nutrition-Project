@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exercise Summary</title>
+    <title>Hasil Aktivitas</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -34,31 +34,31 @@
 </head>
 <body>
     <div class="header">
-        <h1>Exercise Summary</h1>
-        <p>Congratulations! You have completed your exercise session.</p>
+        <h1>Ringkasan Aktivitas</h1>
+        <p>Selamat! Anda telah menyelesaikan sesi latihan Anda.</p>
     </div>
 
     <div class="summary">
-        <h2>Session Details</h2>
+        <h2>Detail Sesi</h2>
         <div class="row">
             <div class="col">
-                <strong>Activity:</strong> {{ $session->physicalActivity->name }}
+                <strong>Aktivitas:</strong> {{ $session->physicalActivity->name }}
             </div>
             <div class="col">
-                <strong>Duration:</strong> {{ $session->duration_minutes }} minutes
+                <strong>Durasi:</strong> {{ $session->duration_minutes }} minutes
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <strong>Calories Burned:</strong> {{ $session->calories_burned }} calories
+                <strong>Kalori Terbakar:</strong> {{ $session->calories_burned }} calories
             </div>
             <div class="col">
-                <strong>Finished At:</strong> {{ $session->finished_at->format('d M Y H:i') }}
+                <strong>Selesai Pada:</strong> {{ $session->finished_at->format('d M Y H:i') }}
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <strong>User:</strong> {{ $session->user->name }}
+                <strong>Nama Pengguna:</strong> {{ $session->user->name }}
             </div>
         </div>
     </div>

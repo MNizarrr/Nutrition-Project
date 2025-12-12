@@ -76,7 +76,7 @@
                             <a class="nav-link" href="{{ route('history') }}">Sejarah Hasil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('physical.activity') }}">Aktivitas Fisik</a>
+                            <a class="nav-link" href="{{ route('exercise.all') }}">Aktivitas Fisik</a>
                         </li>
                     @else
                         <li class="nav-item">

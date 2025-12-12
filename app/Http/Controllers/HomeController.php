@@ -9,7 +9,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $activities = PhysicalActivity::where('status', 'active')->latest()->take(4)->get();
+        $activities = PhysicalActivity::where('status', 'active')->latest()->take(3)->get();
         return view('home', compact('activities'));
     }
 

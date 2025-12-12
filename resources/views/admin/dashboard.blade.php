@@ -28,6 +28,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
+            // kode keamanan Laravel supaya AJAX tidak gagal karena CSRF
         });
 
         let labelsBar = [];

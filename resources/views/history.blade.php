@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mt-5">
-    <h2>BMI History</h2>
+    <h2>Hasil Perthitungan IMT</h2>
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
@@ -10,14 +10,13 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Height (m)</th>
-                    <th>Weight (kg)</th>
-                    <th>BMI</th>
-                    <th>Category</th>
-                    <th>Teacher Checked</th>
-                    <th>Admin Status</th>
-                    <th>Admin Message</th>
+                    <th>Tanggal</th>
+                    <th>Tinggi (m)</th>
+                    <th>Berat (kg)</th>
+                    <th>IMT</th>
+                    <th>Kategori</th>
+                    <th>Guru Cek</th>
+                    <th>Umpan Balik</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,7 +43,6 @@
                                 <span class="badge bg-danger">Rejected</span>
                             @endif
                         </td>
-                        <td>{{ $record->admin_message ?: '-' }}</td>
                     </tr>
                 @empty
                     <tr>

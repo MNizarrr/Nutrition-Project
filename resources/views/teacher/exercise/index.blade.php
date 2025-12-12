@@ -23,6 +23,7 @@
                                 <tr>
                                     <th>Nama Aktivitas</th>
                                     <th>Deskripsi</th>
+                                    <th>Foto Olahraga</th>
                                     <th>Kalori Terbakar (per jam)</th>
                                     <th>Tingkat Intensitas</th>
                                     <th>Aksi</th>
@@ -33,6 +34,9 @@
                                     <tr>
                                         <td>{{ $activity->name }}</td>
                                         <td>{{ Str::limit($activity->description, 50) }}</td>
+                                        <td>
+                                            <img src="{{ asset('storage/' . $activity->exercise_image) }}" class="card-img-top" alt="{{ $activity->name }}" style="height:50px; object-fit:cover;">
+                                        </td>
                                         <td>{{ $activity->calories_burned }} kalori</td>
                                         <td>
                                             <span class="badge bg-{{ $activity->intensity_level == 'Rendah' ? 'success' : ($activity->intensity_level == 'Sedang' ? 'warning' : 'danger') }}">
